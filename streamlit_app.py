@@ -91,9 +91,9 @@ if uploaded_file is not None:
         st.stop()
     def has_brain_structure(img):
     # TEMP logic (replace later with actual validation)
-    if img is None:
-        return False
-    return True
+        if img is None:
+            return False
+        return True
     # SOFT CHECK (warning only)
     if not has_brain_structure(img):
         st.warning("⚠️ This image may not be a proper brain MRI. Proceeding anyway...")
