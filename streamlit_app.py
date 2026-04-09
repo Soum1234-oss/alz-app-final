@@ -3,11 +3,12 @@ import numpy as np
 import cv2
 import joblib
 import matplotlib.pyplot as plt
-#from tensorflow.keras.applications import VGG16
-#from tensorflow.keras.models import Model
+from tensorflow.keras.applications import VGG16
+from tensorflow.keras.models import Model
 from PIL import Image
-#from utils import has_brain_structure
+
 IMG_SIZE = 224
+
 classes = [
     "Non Demented",
     "Very Mild Demented",
@@ -41,21 +42,17 @@ def is_grayscale(image, threshold=25):
     return diff < threshold
 
 
+def has_brain_structure(image):
+    if image is None:
+        return False
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    # Improve contrast
     gray = cv2.equalizeHist(gray)
-
-    # Smooth image
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-
-    # Edge detection
     edges = cv2.Canny(blurred, 30, 120)
 
     edge_density = np.sum(edges) / (image.shape[0] * image.shape[1])
 
-    # Relaxed range to avoid rejecting real MRI
     return 0.005 < edge_density < 0.3
 
 
@@ -73,30 +70,22 @@ if uploaded_file is not None:
     image = Image.open(uploaded_file)
     st.image(image, caption="Uploaded Image", use_column_width=True)
 
-    # Convert to OpenCV format
     img_array = np.array(image)
 
     if len(img_array.shape) == 3 and img_array.shape[2] == 4:
         img_array = cv2.cvtColor(img_array, cv2.COLOR_RGBA2RGB)
 
     img_array = cv2.cvtColor(img_array, cv2.COLOR_RGB2BGR)
-
     img = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE))
 
     # ---------------- VALIDATION ---------------- #
 
-    # HARD CHECK (must pass)
     if not is_grayscale(img):
         st.error("❌ Invalid Image: MRI scans must be grayscale.")
         st.stop()
-    def has_brain_structure(img):
-    # TEMP logic (replace later with actual validation)
-        if img is None:
-            return False
-        return True
-    # SOFT CHECK (warning only)
+
     if not has_brain_structure(img):
-        st.warning("⚠️ This image may not be a proper brain MRI. Proceeding anyway...")
+        st.warning("⚠️ This image may not be a proper brain MRI.")
 
     # ---------------- PREDICTION ---------------- #
 
@@ -135,4 +124,3 @@ if uploaded_file is not None:
     st.pyplot(fig)
 
 st.info("System uses validation + ML prediction. Only grayscale MRI scans are strictly accepted.")
-
