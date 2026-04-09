@@ -4,7 +4,7 @@ import cv2
 import joblib
 import matplotlib.pyplot as plt
 #from tensorflow.keras.applications import VGG16
-from tensorflow.keras.models import Model
+#from tensorflow.keras.models import Model
 from PIL import Image
 
 IMG_SIZE = 224
