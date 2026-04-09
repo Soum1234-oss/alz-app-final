@@ -1,19 +1,18 @@
-# 🎈 Blank app template
+# 🧠 Alzheimer's Detection App
 
-A simple Streamlit app template for you to modify!
+Trained on 2141 MRI images, 77.6% accuracy (VGG16 + PCA + SVM).
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://blank-app-template.streamlit.app/)
+## Quick Start (30s)
+1. `pip install -r requirements.txt`
+2. `streamlit run app_local.py`
 
-### How to run it on your own machine
+Upload MRI → Instant 4-class prediction!
 
-1. Install the requirements
+## Classes
+- Nondemented (Normal)
+- Verymilddemented (Early)
+- MildDemented  
+- Moderatedemented (Advanced)
 
-   ```
-   $ pip install -r requirements.txt
-   ```
-
-2. Run the app
-
-   ```
-   $ streamlit run streamlit_app.py
-   ```
+## Retrain (Optional)
+`python train_local.py` (add your images to parent dir folders).
