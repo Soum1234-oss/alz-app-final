@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 import joblib
 import matplotlib.pyplot as plt
-from tensorflow.keras.applications import VGG16
+#from tensorflow.keras.applications import VGG16
 from tensorflow.keras.models import Model
 from PIL import Image
 
